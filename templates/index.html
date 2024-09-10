@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Form</title>
+    <link rel="stylesheet" href="static\css\style.css">
+</head>
+    <div class="box">
+        <div class="form">
+            <h2>Login Form</h2>
+            <form id="signupForm">
+                <div class="inputbox">
+                    <input type="text" value="" id="username" required>
+                    <span>Username</span>
+                </div>
+                <div class="inputbox">
+                    <input type="email" value="" id="email" required>
+                    <span>E-mail</span>
+                </div>
+                <div class="inputbox">
+                    <input type="text" value="" id="phone" required>
+                    <span>Phone Number</span>
+                </div>
+                <input type="submit" value="Submit" class="sub" id="submit">
+            </form>
+        </div>
+    </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAkb-xnCv4VWq0X90U8b70Wa1gV5ki1jjk",
+            authDomain: "chatverse-3b8e5.firebaseapp.com",
+            projectId: "chatverse-3b8e5",
+            storageBucket: "chatverse-3b8e5.appspot.com",
+            messagingSenderId: "512716065033",
+            appId: "1:512716065033:web:ffd7a58db066f66c81ebd8"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Form submit handler
+        document.getElementById("signupForm").addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get values from form
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+
+            // Set data to Firebase
+            set(ref(db, 'user/' + username), {
+                username: username,
+                email: email,
+                PhoneNumber: phone
+            })
+            .then(() => {
+                alert("signup Successful!");
+                window.location.href = "/dashboard"; 
+            })
+            .catch((error) => {
+                console.error("Error writing to Firebase Database", error);
+            });
+        });
+    </script>
+</body>
+</html>
